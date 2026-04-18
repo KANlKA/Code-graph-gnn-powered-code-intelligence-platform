@@ -9,13 +9,22 @@ services:
     ports:
       - "27017:27017"
 
+  ollama:
+    image: ollama/ollama
+    restart: always
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+
   api:
     build: .
     restart: always
     depends_on:
       - mongo
+      - ollama
     environment:
-      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - ANTHROPIC_API_KEY=not-needed
       - MONGO_URI=mongodb://mongo:27017
       - MONGO_DB=codegraph
       - MODEL_DIR=/app/models_cache
@@ -29,3 +38,4 @@ services:
 
 volumes:
   mongo_data:
+  ollama_data:

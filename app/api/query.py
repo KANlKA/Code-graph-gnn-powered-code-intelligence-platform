@@ -9,7 +9,7 @@ from pydantic import BaseModel
 from motor.motor_asyncio import AsyncIOMotorClient
 from app.config import settings
 from app.services.embedder import query_index
-from app.services.claude_service import astream_debug_trace
+from app.services.ollama_service import astream_debug_trace
 
 router = APIRouter()
 
