@@ -9,7 +9,6 @@ import faiss
 from pathlib import Path
 from sentence_transformers import SentenceTransformer
 from app.config import settings
-from app.models.graph import CodeNode
 
 
 _model: SentenceTransformer | None = None
