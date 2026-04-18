@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  mongo:
+    image: mongo:7
+    restart: always
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+
+  api:
+    build: .
+    restart: always
+    depends_on:
+      - mongo
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - MONGO_URI=mongodb://mongo:27017
+      - MONGO_DB=codegraph
+      - MODEL_DIR=/app/models_cache
+      - FAISS_DIR=/app/faiss_indexes
+      - GNN_CHECKPOINT=/app/models_cache/gnn_checkpoint.pt
+    volumes:
+      - ./models_cache:/app/models_cache
+      - ./faiss_indexes:/app/faiss_indexes
+    ports:
+      - "8000:8000"
+
+volumes:
+  mongo_data:
